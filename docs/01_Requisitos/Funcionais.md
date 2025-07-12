@@ -84,7 +84,7 @@ Todos os dados de entrada devem estar presentes.
 
 ---
 
-## RF05 - Consulta de Propostas
+## RF05 - Consulta de Propostas e projetos
 
 **Descrição:**  
 O usuário deve ser capaz de visualizar os projetos cadastrados.

@@ -1,0 +1,30 @@
+@startuml C4-1-Diagrama-de-contexto
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/refs/heads/master/C4_Context.puml
+
+Person(User, "Usuário", "Cria e consulta propostas/projetos")
+Person(PMO, "PMO", "Aprova propostas")
+Person(Team, "Equipe", "Aprova propostas")
+Person(Manager, "Gerente de Área", "Aprova propostas")
+Person(QA, "QA Lead", "Consulta logs de auditoria")
+
+System(System, "Gestão PPM", "Modulo responsável por gerenciar propostas de projetos")
+
+System_Ext(Email, "Serviço de E-mail", "Envia notificações")
+System_Ext(ERP, "Sistema ERP", "Integra dados futuros")
+System_Ext(BI, "Ferramenta BI", "Consulta dados futuros")
+System_Ext(Monitoring, "Ferramenta de observabilidade", "Armazena e categoriza os logs")
+
+Rel(User, System, "Cria/consulta propostas/projetos", "")
+Rel(PMO, System, "Aprova/rejeita propostas", "")
+Rel(Team, System, "Aprova/rejeita propostas", "")
+Rel(Manager, System, "Aprova/rejeita propostas", "")
+Rel(QA, Monitoring, "Audita ações")
+
+Rel(System, Monitoring, "Informa os logs a serem armazenados")
+Rel(ERP, System, "Integração futura", "")
+Rel(BI, System, "Consulta dados futuros", "")
+
+Rel(System, Email, "Envia notificações")
+
+LAYOUT_WITH_LEGEND()
+@enduml
