@@ -17,7 +17,7 @@ System_Ext(Email, "Serviço de E-mail", "Envia notificações")
 System_Ext(ERP, "Sistema ERP", "Integra dados futuros")
 System_Ext(BI, "Ferramenta BI", "Consulta dados futuros")
 System_Ext(Monitoring, "Ferramenta de observabilidade", "Armazena e categoriza os logs")
-System_Ext(Auth, "Ferramenta de autenticação", "Autentica o usuário e retorna a sessão")
+System_Ext(Auth, "Ferramenta de autenticação", "Autentica o usuário e retorna a sessão", "Keycloak")
 
 Rel(User, FrontEnd, "Acessa via navegador", "")
 Rel(PMO, FrontEnd, "Acessa via navegador", "")

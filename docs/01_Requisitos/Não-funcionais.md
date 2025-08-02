@@ -10,9 +10,6 @@ O sistema deve trabalhar com falhas localizadas apenas. Ele não pode cair compl
 O sistema deve ser capaz de operar sem acesso a rede ainda que com recursos limitados e a sincronização deve ser feita logo que uma conexão for estabelecida.  
 Quando sem conexão o usuário deve ser capaz de usar os recursos:
 - Criação de projetos e tarefas
-- Preenchimento de formulários
-- Apontamento de horas
-- Upload de anexos  
 
 Tendo como restrições:  
 Ações críticas bloqueadas (exclusão de projetos, alterações estruturais)  
