@@ -8,7 +8,7 @@ Person(Manager, "Gerente de Área", "Aprova propostas")
 Person(QA, "QA Lead", "Consulta logs de auditoria")
 
 System_Boundary(s1, "Gestão PPM") {
-  System(FrontEnd, "Interface Web", "Exibe telas para cadastro, aprovação e consulta")
+  System(FrontEnd, "Interface Web", "Exibe telas para cadastro, aprovação e consulta", "React + TS")
   System(BackEnd, "API RESTful", "Regras de negócio, autenticação, fluxo de aprovação, auditoria, notificações")
   ContainerDb(Database, "Database", "SQL/DB", "Armazena dados de prospostas e projetos")
 }

@@ -1,7 +1,7 @@
 # ADR-001: Escolha do Framework Frontend
 
 ## Status
-Accepted
+Aceito
 
 ## Contexto
 O projeto requer uma interface web interativa e moderna, com foco em boa usabilidade, responsividade e integração futura com bibliotecas de visualização como cronogramas (Gantt), dashboards e formulários dinâmicos.  
