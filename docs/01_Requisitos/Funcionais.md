@@ -1,6 +1,6 @@
 # Requisitos Funcionais
 
-## Visão
+## Visão  
 Este documento descreve as funcionalidades mínimas do módulo de Gestão de Propostas de Projetos, parte do laboratório de arquitetura PPM.
 
 ---
@@ -84,7 +84,7 @@ Todos os dados de entrada devem estar presentes.
 
 ---
 
-## RF05 - Consulta de Propostas e projetos
+## RF05 - Consulta de Propostas e Projetos
 
 **Descrição:**  
 O usuário deve ser capaz de visualizar os projetos cadastrados.
@@ -98,3 +98,107 @@ O usuário deve ser capaz de visualizar os projetos cadastrados.
 
 **Regras de negócio:**  
 Aprovadores devem visualizar todos os registros, independentemente do vínculo.
+
+---
+
+## RF06 - Relatórios Dinâmicos
+
+**Descrição:**  
+O sistema deve ser capaz de gerar relatórios dinâmicos totalmente customizados e baseados em diversos projetos.
+
+**Campos/Entradas:**
+- Projetos a serem usados no relatório
+- Campos do relatório
+- Filtros do relatório
+- Gráficos
+- Exportação para Excel ou PDF
+
+**Saídas/Resultados:**
+- O relatório é gerado seguindo os dados inseridos.
+- O relatório é exportável no formato de preferência (Excel ou PDF)
+
+**Regras de negócio:**  
+- Os relatórios devem poder ser montados usando somente projetos que o usuário tem acesso.  
+- Os relatórios podem conter somente informações que o usuário possui acesso em cada projeto.
+
+---
+
+## RF07 - Cadastro de Novo Usuário
+
+**Descrição:**  
+Um administrador do sistema deve ser capaz de cadastrar novos usuários.
+
+**Campos/Entradas:**
+- Nome
+- Cargo
+- Email
+- Usuário
+- Licença de acesso
+
+**Saídas/Resultados:**
+- O usuário é cadastrado com uma senha temporária que é enviada ao email do mesmo.
+
+**Regras de negócio:**
+Ao fazer o primeiro login o usuário deverá criar uma nova senha que deve cumprir os requisitos:
+- Ao menos 1 caractere maiúsculo
+- Ao menos 1 caractere minúsculo
+- Ao menos 1 número
+- Ao menos 1 símbolo especial
+- No mínimo 10 caracteres
+- Não são permitidas sequências
+
+---
+
+## RF08 - Login
+
+**Descrição:**  
+O usuário deve ser capaz de fazer login no sistema desde que sejam cumpridas as devidas verificações.
+
+**Campos/Entradas:**
+- Email
+- Senha
+- Código de verificação
+
+**Saídas/Resultados:**
+- O usuário é logado no sistema e recebe uma sessão válida por 1 dia. Ao término da sessão é necessário efetuar o processo de login novamente.
+
+**Regras de negócio:**
+- Ao efetuar o login com o usuário e senha corretos, será solicitada uma autenticação multifatorial usando um código.  
+- A sessão será válida por 1 dia, precisando efetuar novo login no próximo dia  
+- Caso o usuário fique inativo do sistema por 5 minutos, o mesmo terá sua sessão invalidada.  
+
+---
+
+## RF09 - Troca de Senha
+
+**Descrição:**  
+O usuário deve trocar sua senha a cada 30 (trinta) dias.
+
+**Campos/Entradas:**
+- Email
+- Senha atual
+- Nova senha
+
+**Saídas/Resultados:**
+- Uma confirmação da troca é enviada por email. 
+
+**Regras de negócio:**
+- Caso seja confirmado, a senha é trocada.  
+- Caso seja negado, a conta é bloqueada temporariamente.
+
+---
+
+## RF10 - Integração (SAP, Salesforce, ERPs Financeiros)
+
+**Descrição:**  
+O sistema deve ser capaz de atuar com integrações externas diversas provisionadas pelo sistema.
+
+**Campos/Entradas:**
+- Informações sobre o projeto (nome, custo, receita, estimativa)
+
+**Saídas/Resultados:**
+- Status da última sincronização
+- Logs/Mensagens de erro
+
+**Regras de negócio:**
+- O sistema deve suportar modelos alternativos, sendo estes: batch, polling e arquivos intermediários.
