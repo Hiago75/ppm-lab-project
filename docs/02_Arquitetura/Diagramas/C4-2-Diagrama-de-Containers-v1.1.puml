@@ -1,0 +1,67 @@
+@startuml C4-2-Diagrama-de-containers-v1.1
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(User, "Usuário", "Cria e consulta propostas/projetos")
+Person(PMO, "PMO", "Aprova propostas")
+Person(Team, "Equipe", "Aprova propostas")
+Person(Manager, "Gerente de Área", "Aprova propostas")
+Person(QA, "QA Lead", "Consulta logs de auditoria")
+
+System_Boundary(s1, "Gestão PPM") {
+  System(FrontEnd, "Interface Web", "Exibe telas para cadastro, aprovação e consulta", "React + TS")
+}
+
+System_Boundary(s2, "APIGateway") {
+  System(BackEnd, "API RESTful", "Regras de negócio, autenticação, fluxo de aprovação, auditoria, notificações")
+  Container(ReportWorker, "Worker de Relatórios", "Worker", "Processa relatórios pesados de forma assíncrona")
+  System_Ext(MessageBroker, "Serviço de messageria", "Armazena e envia informações de projetos feitos offline e jobs de relatórios", "RabbitMQ")
+}
+
+System_Boundary(db_cluster, "Cluster PostgreSQL") {
+    Container(PostgresPrimary, "Nó Primário", "PostgreSQL", "Recebe leituras e escritas. Contém schemas por tenant.")
+    Container(PostgresStandby, "Nó Standby", "PostgreSQL", "Réplica para HA e leituras de relatórios.")
+    System_Ext(Patroni, "Gerenciador de Cluster", "Orquestra o failover automático.", "Patroni")
+
+    Rel(PostgresPrimary, PostgresStandby, "Replica dados", "Streaming Replication")
+    Rel(Patroni, PostgresPrimary, "Gerencia")
+    Rel(Patroni, PostgresStandby, "Gerencia")
+}
+
+System_Boundary(s3, "Integrações") {
+  System_Ext(ERP, "Sistema ERP", "Integra dados futuros")
+  System_Ext(BI, "Ferramenta BI", "Consulta dados futuros")
+}
+
+System_Ext(Email, "Serviço de E-mail", "Envia notificações")
+System_Ext(Monitoring, "Ferramenta de observabilidade", "Armazena e categoriza os logs")
+System_Ext(Auth, "Ferramenta de autenticação", "Autentica o usuário e retorna a sessão", "Keycloak")
+
+' Relações do Usuário e Sistema
+Rel(User, FrontEnd, "Acessa via navegador", "")
+Rel(PMO, FrontEnd, "Acessa via navegador", "")
+Rel(Team, FrontEnd, "Acessa via navegador", "")
+Rel(Manager, FrontEnd, "Acessa via navegador", "")
+Rel(QA, Monitoring, "Consulta os logs", "")
+
+' Relações dos Containers
+Rel(FrontEnd, BackEnd, "Usa APIs RESTful", "HTTPS")
+Rel(FrontEnd, Auth, "Autentica o usuário")
+
+Rel(BackEnd, Auth, "Valida a sessão do usuário")
+Rel(BackEnd, Email, "Envia e-mails via SMTP/API")
+Rel(BackEnd, Monitoring, "Informa os logs a serem registrados")
+Rel(BackEnd, PostgresPrimary, "Lê/Grava dados (CRUDs)", "JDBC")
+Rel(BackEnd, MessageBroker, "Enfileira jobs de relatórios e dados offline")
+
+Rel(MessageBroker, BackEnd, "Envia os dados da fila offline")
+Rel(ReportWorker, MessageBroker, "Consome jobs de relatórios da fila")
+Rel(ReportWorker, PostgresStandby, "Executa queries de leitura para relatórios", "JDBC")
+
+
+Rel(Auth, Email, "Envia confirmações de troca de senha e criação de usuários")
+Rel(ERP, BackEnd, "Integração futura via API")
+Rel(BI, BackEnd, "Consulta dados futuros via API")
+
+
+LAYOUT_WITH_LEGEND()
+@enduml
